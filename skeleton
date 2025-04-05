@@ -1,1 +1,11 @@
+clock in app for cna's 
 
+clock in connects them to the server, each cna has a predefined set of patients and assigned medication
+
+-app ui
+-c++ classes and method structure
+  -cna
+  -patient
+  -if time: video chat
+  -emergency/medication ding
+-push to google store
