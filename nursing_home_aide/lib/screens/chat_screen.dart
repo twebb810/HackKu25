@@ -1,55 +1,95 @@
-// The main dashboard screen / home page of the app
+// lib/screens/chat_screen.dart
 import 'package:flutter/material.dart';
+import '../services/gemini_service.dart';
 
-class ChatScreen extends StatelessWidget {
-    final List<String> messages = [
-        'Hello! How can I assist you today?',
-        'Please let me know if you need any help!'
-    ];
+class ChatScreen extends StatefulWidget {
+  @override
+  _ChatScreenState createState() => _ChatScreenState();
+}
 
-    @override
-    Widget build(BuildContext context) {
-        return Scaffold(
-            appBar: AppBar(
-                title: Text('Chat Screen'),
+class _ChatScreenState extends State<ChatScreen> {
+  final TextEditingController _controller = TextEditingController();
+  final List<Map<String, String>> _messages = [];
+  bool _isLoading = false;
+
+  void _sendMessage() async {
+    final text = _controller.text.trim();
+    if (text.isEmpty) return;
+
+    setState(() {
+      _messages.add({'role': 'user', 'text': text});
+      _isLoading = true;
+      _controller.clear();
+    });
+
+    final response = await GeminiService.getResponse(text);
+
+    setState(() {
+      _messages.add({'role': 'gemini', 'text': response});
+      _isLoading = false;
+    });
+  }
+
+  Widget _buildMessage(Map<String, String> message) {
+    final isUser = message['role'] == 'user';
+    return Align(
+      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+        padding: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: isUser ? Colors.blueAccent : Colors.grey[300],
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Text(
+          message['text'] ?? '',
+          style: TextStyle(
+            color: isUser ? Colors.white : Colors.black,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Chatbot")),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              reverse: true,
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                final message = _messages[_messages.length - 1 - index];
+                return _buildMessage(message);
+              },
             ),
-            body: Column(
-                children: [
-                    Expanded(
-                        child: ListView.builder(
-                            itemCount: messages.length,
-                            itemBuilder: (context, index) {
-                                return ListTile(
-                                    title: Text(messages[index]),
-                                    leading: Icon(Icons.message),
-                                );
-                            },
-                        ),
+          ),
+          if (_isLoading) CircularProgressIndicator(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    decoration: InputDecoration(
+                      hintText: 'Ask something...'
                     ),
-                    Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                            children: [
-                                Expanded(
-                                    child: TextField(
-                                        decoration: InputDecoration(
-                                            hintText: 'Type a message...',
-                                            border: OutlineInputBorder(),
-                                        ),
-                                    ),
-                                ),
-                                SizedBox(width: 8),
-                                ElevatedButton(
-                                    onPressed: () {
-                                        // Handle sending a message
-                                    },
-                                    child: Icon(Icons.send),
-                                ),
-                            ],
-                        ),
-                    ),
-                ],
+                    onSubmitted: (_) => _sendMessage(),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.send),
+                  onPressed: _sendMessage,
+                )
+              ],
             ),
-        );
-    }
+          )
+        ],
+      ),
+    );
+  }
 }
