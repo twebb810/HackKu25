@@ -56,9 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.pushNamed(context, '/chat');
                 },
                 icon: Icon(Icons.chat, color: Colors.white),
-                label: Text('Chat with Patients'),
+                label: Text('Chat with Patient-Helper AI'),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.teal.shade100,
+                  backgroundColor: Colors.teal.shade100,
                   padding: EdgeInsets.symmetric(vertical: 15),
                   textStyle: TextStyle(fontSize: 18),
                 ),
@@ -108,5 +108,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+    }
   }
-}
