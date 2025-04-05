@@ -25,8 +25,8 @@ class HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children; [
                         Text(
                             'Welcome to the Nursing Home Aide App!',
                             textAlign: TextAlign.center,
