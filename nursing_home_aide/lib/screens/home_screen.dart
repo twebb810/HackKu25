@@ -1,9 +1,24 @@
 // A screen for messaging and chat functionality
-// to-do: clock in on homepage, associated timer, check if you can import the patients from patients class
+// to-do: associated timer, check if you can import the patients from patients class
 
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool isClockedIn = false; // tracks clock-in status
+  DateTime? clockInTime; // stores the clock-in time
+
+  void handleClockIn() {
+    setState(() {
+      isClockedIn = true;
+      clockInTime = DateTime.now();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +39,7 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
                 'Welcome to the Nursing Home Aide App!',
@@ -61,17 +76,33 @@ class HomeScreen extends StatelessWidget {
                   textStyle: TextStyle(fontSize: 18),
                 ),
               ),
-              SizedBox(height: 30),
-              Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: Image.asset(
-                    'assets/images/nursing_home.png',
-                    height: 200,
-                    fit: BoxFit.cover,
-                  ),
+              SizedBox(height: 15),
+              ElevatedButton.icon(
+                onPressed: isClockedIn
+                    ? null // disable button if clocked in
+                    : handleClockIn,
+                icon: Icon(Icons.access_time, color: Colors.white),
+                label: Text(isClockedIn ? 'Clocked In' : 'Clock In'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: isClockedIn
+                      ? Colors.grey // Color if button is disabled
+                      : Colors.teal.shade700,
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  textStyle: TextStyle(fontSize: 18),
                 ),
               ),
+              if (isClockedIn) ...[
+                SizedBox(height: 20),
+                Text(
+                  'Clocked in at: ${clockInTime?.hour}:${clockInTime?.minute.toString().padLeft(2, '0')}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ],
           ),
         ),
