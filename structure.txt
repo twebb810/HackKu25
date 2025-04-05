@@ -1,1 +1,14 @@
+lib/
+├── main.dart
+├── screens/
+│   ├── home_screen.dart
+│   ├── chat_screen.dart
+│   └── patient_screen.dart
+├── services/
+│   ├── firebase_service.dart
+│   └── gemini_service.dart
+├── models/
+│   └── patient.dart
+└── widgets/
+    └── patient_card.dart
 
