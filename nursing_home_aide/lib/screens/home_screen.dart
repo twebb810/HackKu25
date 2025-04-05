@@ -14,10 +14,10 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children; [
+                    children: [
                         Text(
                             'Welcome to the Nursing Home Aide App!',
-                            textAllign: TextAlign.center,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
