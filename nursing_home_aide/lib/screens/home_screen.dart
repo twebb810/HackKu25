@@ -1,4 +1,5 @@
 // A screen for messaging and chat functionality
+// to-do: clock in on homepage, associated timer, check if you can import the patients from patients class
 
 import 'package:flutter/material.dart';
 
@@ -8,40 +9,69 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
             appBar: AppBar(
                 title: Text('Home Screen'),
+                centerTitle: true,
+                backgroundColor: Colors.teal,
             ),
-            body: Padding(
+            body: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [Colors.teal.shade300, Colors.teal.shade100],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                    ),
+                ),
+            )
+            child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children; [
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
                         Text(
                             'Welcome to the Nursing Home Aide App!',
-                            textAllign: TextAlign.center,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 24,
+                                fontSize: 26,
                                 fontWeight: FontWeight.bold,
+                                color : Colors.white,
                             ),
                         ),
-                        SizedBox(height: 20),
-                        ElevatedButton(
+                        SizedBox(height: 30),
+                        ElevatedButton.icon(
                             onPressed: () {
                                 Navigator.pushNamed(context, '/chat');
                             },
-                            child: Text('Go to Chat Screen'),
+                            icon: Icon(Icons.chat, color: Colors.white),
+                            label: Text('Chat with Patients'),
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.teal,shade100,
+                                padding: EdgeInsets.symmetric(vertical: 15),
+                                textStyle: TextStyle(fontSize: 18),
+                            ),
                         ),
-                        SizedBox(height: 10),
-                        ElevatedButton(
+                        SizedBox(height: 15),
+                        ElevatedButton.icon(
                             onPressed: () {
                                 Navigator.pushNamed(context, 'patient');
                             },
-                            child: Text('View Patients'),
+                            icon: Icon(Icons.people, color: Colors.white),
+                            label: Text('View Patients'),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.teal,shade100,
+                                padding: EdgeInsets.symmetric(vertical: 15),
+                                textStyle: TextStyle(fontSize: 18),
+                            ),
                         ),
-                        SizedBox(height: 20),
-                        Image.asset(
-                            'assets/images/home_image.png', // Replace with your image path
-                            height: 200,
-                            fit: BoxFit.cover,
+                        SizedBox(height: 30),
+                        Center(
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: Image.asset(
+                                    'assets/images/nursing_home.png',
+                                    height: 200,
+                                    fit: BoxFit.cover,
+                                ),
+                            ),
                         ),
                     ],
                 ),
